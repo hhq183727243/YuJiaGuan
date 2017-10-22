@@ -1,0 +1,35 @@
+<!--banner -->
+<swiper indicator-dots="true" autoplay="true" interval="3000" duration="300">
+    <block wx:for="{{banner}}">
+        <swiper-item>
+            <image src="/images/home/{{item}}" class="slide-image"/>
+        </swiper-item>
+    </block>
+</swiper>
+
+<view class="mt10 bgwh">
+	<view class="weui-panel weui-panel_access">
+		<view class="weui-panel__hd">已加入场所</view>
+		<view class="weui-panel__bd">
+			<navigator class="weui-media-box weui-media-box_appmsg" url="/pages/place/detail/detail?isJoin=1" wx:for="aaaaa" wx:key="id">
+				<view class="weui-media-box__hd">
+					<image class="weui-media-box__thumb" src="/images/test/article.jpg" />
+				</view>
+				<view class="weui-media-box__bd ">
+					<view class="weui-media-box__title">场所名称</view>
+					<view class="weui-media-box__desc mt5">北京市,海淀区,西北旺保利西山林语8号楼801</view>
+				</view>
+			</navigator>
+		</view>
+	</view>
+
+	<view class="weui-loadmore weui-loadmore_line">
+		<text class="weui-loadmore__tips">查看更多 ->></text>
+	</view>
+</view>
+
+<view class="weui-btn-area">
+	<navigator open-type="switchTab" url="/pages/place/place">
+		<button type="primary">选择场所</button>
+	</navigator>
+</view>

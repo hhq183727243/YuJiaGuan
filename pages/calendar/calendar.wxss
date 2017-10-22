@@ -1,0 +1,74 @@
+.head-box {
+    display: flex;
+}
+.head {
+    width: 50%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20rpx;
+}
+
+.date {
+    padding-left: 20rpx;
+    padding-right: 20rpx;
+}
+
+.head button {
+    padding: 0 20rpx;
+    font-size: 20rpx;
+}
+
+.place {
+    width: 48%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.week-box {
+    justify-content: space-around;
+}
+
+.day-box {
+    display: flex;
+    flex-wrap: wrap;
+    height: 500rpx;
+    color: #999999;
+}
+
+.day-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 107rpx;
+}
+
+.day-content {
+    width: 60rpx;
+    height: 60rpx;
+    line-height: 60rpx;
+    text-align: center;
+}
+
+.day-checked {
+    background: #009B87;
+    border-radius: 50%;
+    color: #ffffff;
+}
+
+.calendar-info {
+    width: 100%;
+    border-top: 1px solid #cccccc;
+    margin-top: 10rpx;
+    padding-top: 60rpx;
+}
+
+.calendar-item {
+    display: flex;
+    /* padding: 0 40rpx; */
+    padding-left: 40rpx;
+    padding-right: 40rpx;   
+    /* margin: 20rpx 0; */
+    justify-content: space-between;
+}

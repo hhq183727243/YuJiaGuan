@@ -1,0 +1,24 @@
+<swiper duration="300" style="height: 340px;">
+    <block wx:for="aaaaa">
+        <swiper-item>
+            <image mode='aspectFit' src="/images/test/p{{index}}.jpg" class="slide-image"/>
+        </swiper-item>
+    </block>
+</swiper>
+
+<view class="p15 wh">
+	<view class="ell f16">现代简约客厅沙发背景墙清新装修效果图</view>
+	<view class="weui-flex mt10">
+		<view class="weui-flex__item">5100 浏览</view>
+		<view class="weui-flex__item tc">1/5</view>
+		<view class="weui-flex__item tr">
+			<image class="icon" src='/images/icon/follow_1.png'></image>5100
+		</view>
+	</view>
+</view>
+
+<view class="weui-btn-area">
+	<navigator url='/pages/addUserInfo/addUserInfo'>
+		<button type='warn'>免费获取装修报价</button>
+	</navigator>
+</view>

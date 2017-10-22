@@ -1,0 +1,5 @@
+/* pages/place/place.wxss */
+page,
+.page{
+	height: 100%;
+}

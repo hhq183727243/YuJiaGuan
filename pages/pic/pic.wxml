@@ -1,0 +1,47 @@
+<import src="/pages/common/condition_template.wxml"/>
+
+<view class="head weui-tab {{show ? '' : 'h-auto'}}">
+	<view class="weui-navbar">
+		<view class="weui-navbar__item weui-bar__item_on">套图</view>
+		<view class="weui-navbar__item">单图</view>
+	</view>
+
+	<view class="weui-tab__panel {{show ? '' : 'h-auto'}}" style="padding-top:42px;">
+		<template is="condition" data="{{labels: labels,conditionIndex: conditionIndex,conditions: conditions,show: show}}"/>
+	</view>
+</view>
+
+<view class="body">
+	<view class="weui-flex">
+		<view class="weui-flex__item pct50">
+			<navigator class='p-item' wx:for="aaaaa" url='detail/detail'>
+				<image class="p-item-pic" src='/images/test/p0.jpg' 
+					bindload="bindImageLoad"></image>
+				<view class="p10 g6 f12 bgwh">
+					<view class="ell">现代简约客厅沙发背景墙清新装修效果图</view>
+					<view class="weui-flex mt10">
+						<view class="weui-flex__item">5100 浏览</view>
+						<view class="weui-flex__item tr">
+							<image class="icon" src='/images/icon/favor_0.png'></image>5100
+						</view>
+					</view>
+				</view>
+			</navigator>
+		</view>
+		<view class="weui-flex__item pct50">
+			<navigator class='p-item' wx:for="aaaaa" url='detail/detail'>
+				<image class="p-item-pic" src='/images/test/p0.jpg' 
+					bindload="bindImageLoad"></image>
+				<view class="p10 g6 f12 bgwh">
+					<view class="ell">现代简约客厅沙发背景墙清新装修效果图</view>
+					<view class="weui-flex mt10">
+						<view class="weui-flex__item">5100 浏览</view>
+						<view class="weui-flex__item tr">
+							<image class="icon" src='/images/icon/favor_0.png'></image>5100
+						</view>
+					</view>
+				</view>
+			</navigator>
+		</view>
+	</view>
+</view>

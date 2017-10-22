@@ -1,0 +1,57 @@
+{
+    "pages": [
+        "pages/index/index",
+        "pages/user/user",
+        "pages/selectAddress/selectAddress",
+        "pages/place/place",
+        "pages/place/detail/detail",
+		"pages/place/detail/calendar/calendar",
+        "pages/calendar/calendar",
+        "pages/calendar/detail/detail"
+    ],
+    "window": {
+        "navigationBarTextStyle": "#ffffff",
+        "navigationBarTitleText": "瑜珈馆-场所端",
+        "navigationBarBackgroundColor": "#000000",
+        "backgroundColor": "#000000"
+    },
+    "tabBar": {
+        "color": "#ffffff",
+        "selectedColor": "#ff6666",
+        "borderStyle": "black",
+        "backgroundColor": "#000000",
+        "list": [
+            {
+                "pagePath": "pages/index/index",
+                "iconPath": "images/bottomNavIcon/home.png",
+                "selectedIconPath": "images/bottomNavIcon/home_hover.png",
+                "text": "首页"
+            },
+            {
+                "pagePath": "pages/place/place",
+                "iconPath": "images/bottomNavIcon/icon_place.png",
+                "selectedIconPath": "images/bottomNavIcon/icon_place_hover.png",
+                "text": "瑜伽馆"
+            },
+            {
+                "pagePath": "pages/calendar/calendar",
+                "iconPath": "images/bottomNavIcon/icon_calendar.png",
+                "selectedIconPath": "images/bottomNavIcon/icon_calendar_hover.png",
+                "text": "健康日历"
+            },
+            {
+                "pagePath": "pages/user/user",
+                "iconPath": "images/bottomNavIcon/user.png",
+                "selectedIconPath": "images/bottomNavIcon/user_hover.png",
+                "text": "我的"
+            }
+        ]
+    },
+    "networkTimeout": {
+        "request": 10000,
+        "connectSocket": 10000,
+        "uploadFile": 10000,
+        "downloadFile": 10000
+    },
+    "debug": true
+}

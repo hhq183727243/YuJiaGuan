@@ -1,0 +1,12 @@
+
+.banner{ 
+	width: 100%;
+	height: 440rpx; 
+}
+
+.portrait{
+	width: 50px;
+	height: 50px;
+	margin-right: 10px;
+	margin-top: 10px;
+}
