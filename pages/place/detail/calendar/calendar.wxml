@@ -7,7 +7,7 @@
                 <button bindtap="handleCalendar" data-handle="next" type="default" size="10"> 》 </button>
             </view>
             <view class="place">
-                <view class="picker">颈部疼痛综合症 </view>
+                <view class="picker">{{place.name}} </view>
             </view>
         </view>
 
@@ -23,24 +23,29 @@
             </view> 
         </view>
     </view>
-
     
 	<view class="weui-panel weui-panel_access">
 		<view class="weui-panel__bd">
-			<view class="weui-media-box" wx:for="aaaa">
-				<view class="weui-media-box__title weui-flex">
-					<view class="pct40">9：00-10：00</view>
-					<view class="weui-flex__item ell">瑜伽理疗</view>
+			<block wx:for="{{roomList}}">
+				<view class="weui-media-box" wx:if="{{item.lesson_info != ''}}">
+					<view class="weui-media-box__title weui-flex">
+						<view class="pct40">{{item.lesson_info.class_time}}</view>
+						<view class="weui-flex__item ell">瑜伽理疗</view>
+					</view>
+					<view class="weui-media-box__desc weui-flex lh30">
+						<view class="weui-flex__item">{{item.number}}</view>
+						<view class="weui-flex__item">{{item.lesson_info.number}}人参与</view>
+						<view class="weui-flex__item">￥{{item.lesson_info.member_price}}</view>
+						<navigator open-type="navigate" url="/pages/calendar/detail/detail?id={{item.id}}&roomNumber={{item.number}}">
+							<button class="tr gm r" size="mini">约课</button>
+						</navigator>
+					</view>
 				</view>
-				<view class="weui-media-box__desc weui-flex lh30">
-					<view class="weui-flex__item">教室编号</view>
-					<view class="weui-flex__item">5人参与</view>
-					<view class="weui-flex__item">￥20</view>
-					<navigator url="/pages/calendar/detail/detail?subscribed=0">
-						<button class="tr gm r" size="mini">约课</button>
-					</navigator>
-				</view>
-			</view>
+			</block>
 		</view>
+	</view>
+
+	<view class="weui-loadmore weui-loadmore_line" wx:if="{{roomList.length == 0}}">
+		<view class="weui-loadmore__tips">暂无相关课程</view>
 	</view>
 </view>

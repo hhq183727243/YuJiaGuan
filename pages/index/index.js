@@ -1,14 +1,13 @@
 //index.js
 var app = getApp()
-var WxParse = require('../../wxParse/wxParse.js');
+var ajax = require('../../utils/server.js');
 
 Page({
 	data: {
 		banner: ['banner_1.png', 'banner_0.png'],
 		currentIndex: 0,
-		labels: ['瑜伽理疗', '瑜伽塑形', '瑜伽表现'],
-		
-		demoList: [1,2,3,4]
+		whichPage: 1,
+		placeList: []
 	},
 	//导航切换
 	changeTab: function (event) {
@@ -17,11 +16,24 @@ Page({
 			currentIndex: index
 		});
 	},
+
+	getPlaceList: function(whichPage){
+		ajax.getJSON('wx/Member/entry?openid=' + app.globalData.openid + '&status=1',(res) => {
+			wx.stopPullDownRefresh();
+			this.setData({
+				placeList: res.data || []
+			});
+		})
+	},
+	onPullDownRefresh: function () {
+		this.getPlaceList(1);
+	},
+
 	//页面分享
 	onShareAppMessage: function () {
 		
 	},
 	onLoad: function (options) {
-
+		this.getPlaceList(1);
 	}
 })

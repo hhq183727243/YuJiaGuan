@@ -9,26 +9,22 @@
     </view>
 
     <view class="userinfo tc" hidden="{{loginStatus}}">
-        <view class="dib" bindtap="onLogin">
-            <image class="userhead" src="../../images/user.png" />
-        </view>
-        <view class="mt10 wh f16" bindtap="onLogin">点击登录</view>
+        <view bindtap="onLogin"><image class="userhead" src="../../images/user.png" /></view>
+		<view class="mt10 rel wh">
+			点击登录<button class="getuserinfo-btn" open-type="getUserInfo" bindgetuserinfo="onLogin"></button>
+		</view>
     </view>
 
 	<view class="weui-cells">
         <template is="cell_normal" 
-			data="{{icon: 'coupon.png',label: '我的消费',footer: '￥50.00'}}"/>
+			data="{{icon: 'coupon.png',label: '我的消费',footer: spendMoney}}"/>
 		
 		<navigator open-type="switchTab" class="weui-cell weui-cell_access" url="/pages/index/index">
 			<view class="weui-cell__hd">
 				<image src="/images/icon/store.png" />
 			</view>
 			<view class="weui-cell__bd">瑜伽馆</view>
-			<view class="weui-cell__ft">10个</view>
+			<view class="weui-cell__ft">{{joinedCount}}个</view>
 		</navigator>
 	</view>
-
-    <!-- <view class="weui-btn-area m_top10" hidden="{{loginStatus}}">
-        <button type="primary" open-type="getUserInfo" bindgetuserinfo="onLogin">点击登录</button>
-    </view> -->
 </view>

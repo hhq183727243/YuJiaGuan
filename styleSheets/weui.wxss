@@ -1348,7 +1348,7 @@ i.weui-tabbar__icon, .weui-tabbar__icon > i {
     display: -webkit-box;
     display: -webkit-flex;
     display: flex;
-    position: absolute;
+    position: fixed;
     z-index: 500;
     top: 0;
     width: 100%;
@@ -1472,7 +1472,7 @@ i.weui-tabbar__icon, .weui-tabbar__icon > i {
 
 .weui-panel {
     background-color: #fff;
-    margin-top: 10px;
+    margin-top: 15px;
     position: relative;
     overflow: hidden;
 }
@@ -2224,15 +2224,15 @@ a.weui-media-box:active {
 
 .weui-loadmore_line {
     border-top: 1px solid #e5e5e5;
-    margin-top: 15px;
+    margin-top: 30px;
 }
 
 .weui-loadmore_line .weui-loadmore__tips {
     position: relative;
     top: -0.9em;
     padding: 0 0.55em;
-    background-color: #fff;
     color: #999;
+	background-color: #FBF8FF;
 }
 
 .weui-loadmore_dot .weui-loadmore__tips {

@@ -1,0 +1,14 @@
+<template name="placeList">
+	<navigator wx:for="{{list}}" class="weui-media-box weui-media-box_appmsg" url="detail/detail?id={{item.id}}" wx:key="id">
+		<view class="weui-media-box__hd">
+			<image class="weui-media-box__thumb" src="{{item.img_url || '/images/test/article.jpg'}}" />
+		</view>
+		<view class="weui-media-box__bd ">
+			<view class="weui-media-box__title weui-flex">
+				<view class="weui-flex__item ell">{{item.name}}</view>
+				<view class="tr gm" catchtap="bindApplyJoin" data-id="{{item.id}}" data-index="{{index}}">申请加入</view>
+			</view>
+			<view class="weui-media-box__desc mt5">{{'' + item.area + item.address}}</view>
+		</view>
+	</navigator>
+</template>

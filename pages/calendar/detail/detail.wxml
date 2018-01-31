@@ -1,4 +1,5 @@
 <import src="/pages/common/weui_template.wxml"/>
+<wxs src="../../common/tools.wxs" module="tools" />
 
 <view class="page">
 	<view><image src="/images/home/banner_1.png" class="banner"/></view>
@@ -11,30 +12,30 @@
 
 		<view class="weui-cells">
 			<template is="cell_normal" 
-				data="{{icon: 'time.png',label: '9月16日 /8：00-9：00/'}}"/>
+				data="{{icon: 'time.png',label: lessonEntity.class_date + '/' + lessonEntity.class_time}}"/>
 			<template is="cell_normal" 
-				data="{{icon: 'store.png',label: '场所名称/教室编号'}}"/>
+				data="{{icon: 'store.png',label: placeEntity.name + '/教室' + roomNumber}}"/>
 
 			<template is="cell_normal" 
-				data="{{icon: 'about-us.png',label: '最低人数5 最高人数15人'}}"/>
+				data="{{icon: 'about-us.png',label: '最低人数' + lessonEntity.class_min_size + '最高人数' + lessonEntity.class_max_size + '人'}}"/>
 			<template is="cell_normal" 
-				data="{{icon: 'coupon.png',label: '￥20/人'}}"/>
+				data="{{icon: 'coupon.png',label: '￥' + lessonEntity.member_price + '/人'}}"/>
 		</view>
 
-		<view class="p15 lh24">目标描述
-通过医疗检查没有发现肩、肘、腕部的韧带、骨骼的物理性损伤，通过医疗检查没有发现肩、肘、腕部的韧带、骨骼的物理性损伤，通过医疗检查没有发现肩、肘、腕部的韧带、骨骼的物理性损伤，通过医疗检查没有发现肩、肘、腕部的韧带、骨骼的物理性损伤通过医疗检查没有发现肩、肘、腕部的韧带、骨骼的物理性损伤</view>
+		<view class="p15 lh24">目标描述：{{lessonEntity.fitness_goal || '暂无相关描述'}}</view>
 	</view>
 
 	<view class="top-line bottom-line mt15 bgwh p15">
-		<view class="bottom-line pb10">5人参与</view>
+		<view class="bottom-line pb10">{{lessonEntity.number}}人参与</view>
 
 		<view>
-			<image wx:for="aaaaa" class="portrait" src="/images/test/article.jpg"></image>
+			<image wx:for="{{subscribedUserList}}" class="portrait" 
+				src="{{tools.getImageUrl(item.headimgurl)}}"></image>
 		</view>
 	</view>
 
-	<view class="top-line bgwh mt15 p15" wx:if="{{!subscribed}}">
+	<view class="top-line bgwh mt15 p15" wx:if="{{!isSubscribed}}">
 		<view class="weui-cell_warn tc">预约截止剩余2小时</view>
-		<button class="mt15" type='warn' bindtap="bindSubscribe">预约</button>
+		<button class="mt15" type='warn' bindtap="bindSubscribeLesson">预约</button>
 	</view>
 </view>

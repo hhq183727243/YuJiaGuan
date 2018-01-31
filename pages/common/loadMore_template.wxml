@@ -1,0 +1,9 @@
+<template name="loadMore">
+	<view class="weui-loadmore weui-loadmore_line" wx:if="{{hasMoreData}}">
+		<view class="weui-loadmore__tips"><view class="loading more_loading"></view> 加载中</view>
+	</view>
+
+	<view class="weui-loadmore weui-loadmore_line" wx:if="{{!hasMoreData}}">
+		<view class="weui-loadmore__tips">{{length == 0 ? '暂无相关内容' : '没有更多内容'}}</view>
+	</view>
+</template>

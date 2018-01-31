@@ -1,73 +1,83 @@
 //获取应用实例
 var app = getApp()
+var ajax = require('../../utils/server.js');
+
 Page({
     data: {  
-        setScreenBrightness : false,
         loginStatus : false,
-        userInfo : {}
+        userInfo : {},
+		spendMoney: 0,
+		joinedCount: 0
     },
-    //页面分享
-    onShareAppMessage: function () {
-        return {
-            title: '迅康图片案例',
-            desc: '分享交流医学图片病例，帮助医生进行教学、诊断和学术交流等活动',
-            path: '/pages/index/index'
-        }
-    },
+	//获取自己消费的金额wx/Member/cost?openid=sss111
+	getSpendMoney: function(){
+		const openid = app.globalData.openid;
+		
+		ajax.getJSON('wx/Member/cost?openid=' + openid, (res) => {
+			this.setData({
+				spendMoney: res.data
+			});
+		});
+	},
+	//获取已加入场所数
+	getJoinedCount: function () {
+		const openid = app.globalData.openid;
+		
+		ajax.getJSON('wx/Places/amount?openid=' + openid, (res) => {
+			this.setData({
+				joinedCount: res.data
+			});
+		});
+	},
+
     onLogin : function(res){
-        //调用登录接口
-        var that = this;
+		//调用登录接口
+		var that = this;
 
-        if ('getuserinfo' == res.type && res.detail.errMsg == 'getUserInfo:ok'){
-            wx.setStorageSync('userInfo', res.detail.rawData);
+		if ('getuserinfo' == res.type) {
+			if (res.detail.errMsg == 'getUserInfo:fail auth deny') {
+				wx.showModal({
+					content: '登录失败，请重新授权登录',
+					showCancel: false,
+					confirmText: '知道了'
+				})
+			} else {
+				wx.setStorageSync('userInfo', res.detail.rawData);
+				wx.showToast({
+					icon: 'loading',
+					title: '登录中...',
+					mask: true,
+					duration: 10000
+				});
 
-            wx.showToast({
-                icon: 'loading',
-                title: '登录中...',
-                mask: true,
-                duration: 10000
-            });
-        }
-        
-        app.getIxkSessionId(function(){
-            wx.hideToast();
-            that.initUserInfo();
-        });
+				app.wechatLogin(function () {
+					wx.hideToast();
+					that.initUserInfo();
+				});
+			}
+		}
     },
     initUserInfo : function(){
         var that = this;
+		if (app.globalData.loginStatus){
+			this.setData({
+				userInfo: app.globalData.userInfo,
+				loginStatus: app.globalData.loginStatus
+			});
 
-		var userInfo = app.globalData['userInfo'];
-
-        if(userInfo.portrait){
-			userInfo.portrait = userInfo.portrait.indexOf('http') > -1 ? userInfo.portrait : (app.globalData.baseUrl + userInfo.portrait);
-        }
-        
-        this.setData({
-           userInfo : userInfo,
-		   loginStatus: app.globalData['loginStatus']
-        });
+			this.getSpendMoney();
+			this.getJoinedCount();
+		}
     },
-
-    //调整屏幕亮度
-    switch1Change : function(e){
-        var val = e.detail.value;
-
-        if(val){
-            wx.setScreenBrightness({ value: 0 });
-        }else{
-            wx.setScreenBrightness({ value: 0.5 })
-        }
-    },
-
+	//页面分享
+	onShareAppMessage: function () {
+		return {
+			title: '瑜伽馆',
+			desc: '悠扬的旋律、曼妙的身姿、清新的空气、放松的心情……这是瑜伽的魅力',
+			path: '/pages/index/index'
+		}
+	},
     onLoad: function (options) {
-        if(wx.canIUse('setScreenBrightness')){
-            this.setData({
-                setScreenBrightness : true
-            });
-        }
-    },
-    onShow : function(){
-        this.initUserInfo();
+		this.initUserInfo();
     }
 })

@@ -1,36 +1,33 @@
-<import src="/pages/common/weui_template.wxml" />
+<import src="/pages/common/placeList_template.wxml" />
+<import src="/pages/common/loadMore_template.wxml"/>
 
 <view class="page">
-    <view class="weui-tab">
-        <view class="weui-navbar">
-            <block wx:for="{{tabs}}" wx:key="*this">
-                <view id="{{index}}" class="weui-navbar__item {{activeIndex == index ? 'weui-bar__item_on' : ''}}" bindtap="tabClick">
-                    {{item}}
-                </view>
-            </block>
-            <view class="weui-navbar__slider" style="left: {{sliderLeft}}px; transform: translateX({{sliderOffset}}px); -webkit-transform: translateX({{sliderOffset}}px);"></view>
-        </view>
-        <view class="weui-tab__panel">
-			 <view class="weui-panel weui-panel_access">
-				<view class="weui-panel__bd">
-					<navigator class="weui-media-box weui-media-box_appmsg" url="detail/detail" wx:for="{{list1}}" wx:key="id">
-						<view class="weui-media-box__hd">
-							<image class="weui-media-box__thumb" src="/images/test/article.jpg" />
-						</view>
-						<view class="weui-media-box__bd ">
-							<view class="weui-media-box__title weui-flex">
-								<view class="weui-flex__item ell">场所名称</view>
-								<view class="tr gm" catchtap="bindApplyJoin" data-index="{{index}}">申请加入</view>
-							</view>
-							<view class="weui-media-box__desc mt5">北京市,海淀区,西北旺保利西山林语8号楼801</view>
-						</view>
-					</navigator>
-				</view>
+	<view class="weui-navbar">
+		<block wx:for="{{tabs}}" wx:key="*this">
+			<view id="{{index}}" class="weui-navbar__item {{activeIndex == index ? 'weui-bar__item_on' : ''}}" bindtap="tabClick">
+				{{item}}
 			</view>
+		</block>
+		<view class="weui-navbar__slider" style="left: {{sliderLeft}}px; transform: translateX({{sliderOffset}}px); -webkit-transform: translateX({{sliderOffset}}px);"></view>
+	</view>
 
-			<view class="weui-loadmore weui-loadmore_line" wx:if="{{list.length == 0}}">
-				<text class="weui-loadmore__tips">暂无相关数据</text>
+	<view hidden="{{activeIndex == 1}}">
+		<view class="weui-panel weui-panel_access">
+			<view class="weui-panel__bd">
+				<template is="placeList" data="{{list: placeList_1}}"/>
 			</view>
-        </view>
-    </view>
+		</view>
+
+		<template is="loadMore" data="{{hasMoreData: hasMoreData,length: placeList_1.length}}"/>
+	</view>
+
+	<view hidden="{{activeIndex == 0}}">
+		<view class="weui-panel weui-panel_access">
+			<view class="weui-panel__bd" hidden="{{activeIndex == 1}}">
+				<template is="placeList" data="{{list: placeList_2}}"/>
+			</view>
+		</view>
+
+		<template is="loadMore" data="{{hasMoreData: hasMoreData,length: placeList_2.length}}"/>
+	</view>
 </view>

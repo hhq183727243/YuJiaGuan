@@ -1,14 +1,16 @@
+<wxs src="../../common/tools.wxs" module="tools" />
+
 <template name="weui-media-tpl">
     <view class="weui-media-box weui-media-box_appmsg" wx:for="{{list}}" wx:key="{{index}}">
 		<view class="weui-media-box__hd">
-			<image class="weui-media-box__thumb" src="/images/test/article.jpg" />
+			<image class="weui-media-box__thumb" src="{{tools.getImageUrl(item.img)}}" />
 		</view>
 		<view class="weui-media-box__bd ">
 			<view class="weui-media-box__title weui-flex">
-				<view class="weui-flex__item ell">颈部疼痛综合症</view>
+				<view class="weui-flex__item ell">{{item.name || '瑜伽课程'}}</view>
 				<navigator class="tr gm" wx:if="{{isJoin}}" url="calendar/calendar?allCourse=1">团体课程</navigator>
 			</view>
-			<view class="weui-media-box__desc mt5">目标描述：文字说明文字说明文字说明文字说明文字说明文字说明文字说明文字说明</view>
+			<view class="weui-media-box__desc mt5">目标描述：{{item.device_string || '暂无相关描述'}}</view>
 		</view>
 	</view>
 </template>
@@ -24,14 +26,14 @@
 <view class="page">
 	<view class="bgwh">
 		<view class="p15">
-			<view class="f16">中国联通/非商业场所</view>
-			<view class="g9 mt10">保利西山林语8号楼801 北京市，海淀区，西北旺1.0km</view>
+			<view class="f16">{{entity.name}}/{{entity.type}}</view>
+			<view class="g9 mt10">{{'' + entity.area + entity.address}}</view>
 		</view>
 
 		<view class="top-line bottom-line">
 			<view class="p15 weui-flex aic">
 				<view class="weui-flex__item">
-					<image class="portrait" src="/images/test/article.jpg"></image>
+					<image class="portrait" src="{{tools.getImageUrl(entity.img)}}"></image>
 				</view>
 				<view class="weui-flex__item tc">
 					<text class="f16">陈自国-馆主</text>
@@ -49,10 +51,20 @@
 		<view class="g9 mt10">更多选择/更好体验/更好效果</view>
 	</view>
 
+	<view class="weui-btn-area" wx:if="{{isJoin}}">
+		<navigator url="calendar/calendar?id={{id}}">
+			<button type="primary">团体课程</button>
+		</navigator>
+	</view>
+
+	<view class="weui-btn-area" wx:if="{{!isJoin}}">
+		<button type="primary">申请加入</button>
+	</view>
+	<!-- 
 	<view class="weui-panel weui-panel_access">
 		<view class="weui-panel__hd">瑜伽理疗</view>
 		<view class="weui-panel__bd">
-			<template is="weui-media-tpl" data="{{list: 'aaaaa',isJoin}}"/>
+			<template is="weui-media-tpl" data="{{list: roomList,isJoin}}"/>
 		</view>
 	</view>
 
@@ -68,5 +80,5 @@
 		<view class="weui-panel__bd">
 			<template is="weui-media-tpl" data="{{list: 'aaaaa',isJoin}}"/>
 		</view>
-	</view>
+	</view> -->
 </view>

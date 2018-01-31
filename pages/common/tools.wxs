@@ -1,0 +1,11 @@
+var getImageUrl = function (url) {
+	if (!url) {
+		return '/images/test/article.jpg';
+	} else if (url.indexOf('http') > -1) {
+		return url;
+	} else {
+		return 'https://www.qujianshen.com/' + url;
+	}
+}
+
+module.exports.getImageUrl = getImageUrl;

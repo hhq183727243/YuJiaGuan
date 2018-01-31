@@ -1,71 +1,49 @@
 var app = getApp();
+var ajax = require('../../../../utils/server.js');
 Page({
 	data: {
+		id: '',
 		hasEmptyGrid: false,
-		placeIndex: 0,
-		places: [{ id: 11, name: 'haha' }, { id: 22, name: 'hehe' }],
 		dayCheck: 0,
 		weeks: [],
 		hours: 0, // 团课发布
 		joinNum: 0, // 会员加入
-		orderNum: 0 // 会员约课
-	},
-	onLoad(options) {
-		let self = this;
-		const date = new Date();
-		const cur_year = date.getFullYear();
-		const cur_month = date.getMonth() + 1;
-		const cur_date = date.getDate();
-		const weeks = ['日', '一', '二', '三', '四', '五', '六'];
-		this.calculateEmptyGrids(cur_year, cur_month);
-		this.calculateDays(cur_year, cur_month);
-		this.setData({
-			cur_year,
-			cur_month,
-			dayCheck: cur_date - 1,
-			weeks
-		});
-		const now_date = cur_year + '-' + cur_month + '-' + cur_date;
-
-		var openid = wx.getStorageSync('userInfo').openid;
-
-		this.getInfo(now_date);
+		orderNum: 0, // 会员约课
+		place: {},
+		roomList: []
 	},
 
 	// 根据日期显示指定信息
-	getInfo: function (now_date) {
-		const self = this;
-		
-		// wx.request({
-		// 	url: 'wx/LessonInfo/calendar',
-		// 	data: {
-		// 		openid,
-		// 		date: now_date
-		// 	},
-		// 	success: function (res) {
-		// 		var data = res.data;
-		// 		if (data.errorCode == 10000) {
-		// 			self.setData({
-		// 				hours: data.data.hours,
-		// 				joinNum: data.data.joinNum,
-		// 				orderNum: data.data.orderNum
-		// 			})
-		// 		}
-		// 	}
-		// });
+	getRoomList: function (id,date) {
+		const openid = app.globalData.openid;
+
+		ajax.getJSON('wx/Places/info?id=' + id + '&date=' + date, (res) => {
+			var roomList = [];
+			
+			res.data.room_info.forEach((item,index) =>{
+				if (typeof(item.lesson_info) == 'object'){
+					roomList.push(item);
+				}
+			});
+			this.setData({
+				place: res.data,
+				roomList: roomList
+			});
+		});
 	},
 	
 	// 点击日期
 	bindDate: function (e) {
-		var idx = e.currentTarget.dataset.idx;
+		var idx = parseInt(e.currentTarget.dataset.idx,10) + 1;
+		const idxStr = idx < 10 ? ('' + '0' + idx) : idx;
 		const cur_year = this.data.cur_year;
 		const cur_month = this.data.cur_month;
-		const now_date = cur_year + '-' + cur_month + '-' + (idx - 0 + 1);
+		const now_date = cur_year + '-' + cur_month + '-' + (idxStr);
 		this.setData({
-			dayCheck: idx
+			dayCheck: idx - 1
 		});
 		console.log(now_date)
-		this.getInfo(now_date)
+		this.getRoomList(this.data.id,now_date)
 	},
 
 	getThisMonthDays(year, month) {
@@ -148,7 +126,29 @@ Page({
 		return {
 			title: '小程序日历',
 			desc: '日历哟日历哟日历哟日历哟',
-			path: 'pages/calendar/calendar'
+			path: 'pages/index/index'
 		}
+	},
+	onLoad(options) {
+		let self = this;
+		const date = new Date();
+		const cur_year = date.getFullYear();
+		const cur_month = date.getMonth() + 1;
+		const cur_date = date.getDate();
+		const weeks = ['日', '一', '二', '三', '四', '五', '六'];
+		this.calculateEmptyGrids(cur_year, cur_month);
+		this.calculateDays(cur_year, cur_month);
+		this.setData({
+			cur_year,
+			cur_month,
+			dayCheck: cur_date - 1,
+			weeks
+		});
+		const now_date = cur_year + '-' + cur_month + '-' + cur_date;
+
+		this.setData({
+			id: options.id
+		});
+		this.getRoomList(options.id,now_date);
 	}
 });

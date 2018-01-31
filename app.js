@@ -1,7 +1,7 @@
 //app.js
 App({
 	globalData: {
-		appid: 'wx734bb7f468f25060',
+		//appid: 'wx734bb7f468f25060',
 		baseUrl: 'https://www.topmedpost.com/',
 		header: {
 			'Content-Type': 'application/json',
@@ -16,132 +16,41 @@ App({
 			'Cookie': '',
 			'X-Requested-With': 'XMLHttpRequest'
 		},
-		loginStatus: false,
-		openId: '',
-		userInfo: {},
-		ixkSessionId: '',
-	},
-
-	errorCallback: function (res) {
-		var that = this;
-
-		var tip = ('string' == typeof (res)) ? res : (res.data['data'] || '系统繁忙，请稍后再试...');
-
-		wx.showModal({
-			title: '提示',
-			content: tip,
-			showCancel: false,
-			success: function (_res) {
-				if (_res.confirm) {
-					if ('用户未登录' == res.data['data'] || 'loginError' == res.data['data']) {
-						that.data.loginStatus = false;
-						that.data.userInfo = {};
-
-						wx.switchTab({
-							url: '/pages/user/user'
-						})
-					}
-				}
-			}
-		});
-	},
-
-	testLogin: function () {
-		var that = this;
-		wx.request({
-			url: this.data.baseUrl + '/testLogin',
-			method: 'POST',
-			data: {
-				"userProfile.email": '1@163.com',
-				"userProfile.password": '1'
-			},
-			header: this.data.header3,
-			success: function (res) {
-				console.log(res.data);
-				that.data.loginStatus = true;
-			}
-		});
+		loginStatus: true,
+		openid: 'xxxwww',
+		userInfo: {}
 	},
 
 	//获取ixkSessionId
-	getIxkSessionId: function (callback) {
+	getSessionId: function (callback) {
 		var that = this;
 
 		//获取ixkSessionId
 		wx.request({
 			url: that.data['baseUrl'] + '/app/user/getSessionId',
 			success: function (res) {
-				if (200 === res.data['status']) {
-					that.data['ixkSessionId'] = res.data['data'];
-					that.data.header['Cookie'] = 'JSESSIONID=' + that.data['ixkSessionId'];
-					that.data.header2['Cookie'] = 'JSESSIONID=' + that.data['ixkSessionId'];
-					that.data.header3['Cookie'] = 'JSESSIONID=' + that.data['ixkSessionId'];
-
-					that.wechatLogin(callback);
-				}
+				
 			}
 		});
 	},
-
-	wechatLogin: function (ixkLoginCallback) {
-		var that = this,
-			userInfo = {};
-
-		var ixkLogin = function (postData) {
-			wx.request({
-				url: that.data.baseUrl + 'app/user/thirdPartyAccountLogin',
-				method: 'POST',
-				data: postData,
-				header: that.data.header3,
-				success: function (res) {
-					if (200 == res.data.status) {
-						userInfo = res.data.data.result;
-
-						that.data.openId = postData.openId;
-						that.data.userInfo = userInfo;
-						//that.data.loginStatus = true;
-
-						if (null == userInfo.userCategory && 2 == userInfo.registeredMethod) {
-							wx.redirectTo({
-								url: '/pages/setUserCategory/setUserCategory'
-							});
-						} else if ('function' == typeof (ixkLoginCallback)) {
-							that.data.loginStatus = true;
-
-							ixkLoginCallback();
-						}
-					}
-				}
-			});
-		};
-
-		//获取access_token
-		var loginCallback = function (code, userInfo) {
-			wx.setStorageSync('userInfo', userInfo);
-
-			ixkLogin({
-				code: code,
-				client: 'wechat_pictureCase',
-				userInfoJson: JSON.stringify(userInfo),
-				type: 1
-			});
-		};
-
+	//获取openid
+	wechatLogin: function (callback) {
+		var that = this;
+		
 		//调用登录接口
 		wx.login({
 			success: function (res) {
-				var userInfo = wx.getStorageSync('userInfo'),
-					code = res.code;
+				wx.getUserInfo({
+					withCredentials: true,
+					success: function (res) {
+						that.globalData.userInfo = res.userInfo;
+						wx.setStorageSync('userInfo', res.userInfo);
 
-				if (userInfo) {
-					loginCallback(code, userInfo);
-				} else {
-					wx.getUserInfo({
-						success: function (res) {
-							loginCallback(code, res.userInfo);
+						if(typeof(callback) === 'function'){
+							callback();
 						}
-					});
-				}
+					}
+				});
 			}
 		});
 	},
@@ -157,5 +66,7 @@ App({
 				that.pixelRatio = res.pixelRatio;
 			}
 		});
+
+		this.wechatLogin();
 	}
 })
